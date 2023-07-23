@@ -20,28 +20,24 @@ title = "GitLab Pages and Hugo"
 contentdir    = "content"
 layoutdir     = "layouts"
 publishdir    = "public"
-languageCode = "en-us"
+languageCode = "es"
 resourceDir = "../resources"
 relativeURLs = true 
 
 
 
-DefaultContentLanguage = "en"
+DefaultContentLanguage = "es"
 SectionPagesMenu = "main"
 Paginate = 3 # this is set low for demonstrating with dummy content. Set to a higher number
 googleAnalytics = ""
 enableRobotsTXT = true
 
 [languages]
-  [languages.en]
-    title = "RMQS en"
+ [languages.es]
+    title = "Tierra fertil es"
     weight = 1
-    contentDir = "content/en"
-  [languages.fr]
-    title = "RMQS fr"
-    weight = 2
-    contentDir = "content/fr"
-
+    contentDir = "content/es"
+  
 [sitemap]
   changefreq = "monthly"
   priority = 0.5
