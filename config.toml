@@ -34,7 +34,7 @@ enableRobotsTXT = true
 
 [languages]
  [languages.es]
-    title = "Tierra fertil es"
+    title = "Suelo fértil"
     weight = 1
     contentDir = "content/es"
   
