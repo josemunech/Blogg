@@ -1,12 +1,17 @@
 ---
-title: "About"
-description: "A few years ago, while visiting or, rather, rummaging about Notre-Dame, the author of this book found, in an obscure nook of one of the towers, the following word, engraved by hand upon the wall: —ANANKE."
+title: "Sobre mi"
+description: "Agro-edafólogo"
 cascade:
-  featured_image: '/images/sol.jpg'
+  featured_image: '/images/vista.jpg'
 menu:
   main:
     weight: 1
 ---
-{{< figure src="/images/Victor_Hugo-Hunchback.jpg" title="Illustration from Victor Hugo et son temps (1881)" >}}
+{{< figure src="/images/pic_jose.jpg" title="Jose Luis Munera Echeverri" >}}
 
-_The Hunchback of Notre-Dame_ (French: _Notre-Dame de Paris_) is a French Romantic/Gothic novel by Victor Hugo, published in 1831. The original French title refers to Notre Dame Cathedral, on which the story is centered. English translator Frederic Shoberl named the novel The Hunchback of Notre Dame in 1833 because at the time, Gothic novels were more popular than Romance novels in England. The story is set in Paris, France in the Late Middle Ages, during the reign of Louis XI.
+ * Investigador en adaptación y mitigación al cambio climático en la agricultura a través del conocimiento y manejo sostenible del suelo.
+ * Conocimiento a fondo del ciclo del carbono y de nutrientes en sistemas agrícolas.
+ * Experiencia de investigación en Europa y en África,.
+ * Experiencia en sistemas de producción para agricultores de pequeña escala en Zambia y en sistemas intensivos de producción en Colombia.
+ * Experiencia en manejo de gran cantidad de datos utilizando el software R. 
+ * Dominio del inglés y francés.
