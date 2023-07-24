@@ -1,0 +1,178 @@
+---
+title: "Mapa del pH del suelo por departamentos en Colombia: Revelando la diversidad edáfica del país gracias a la base de datos abierta de Agrosavia."
+author: Jose Luis Munera Echeverri
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+date: "2023-07-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(sf)
+
+#Define the folder
+
+
+#setwd("/home/jose/Documents")
+
+Analisis_suelos<-read.csv("/home/jose/Documents/Analisis_agrosavia/Resultados_de_An_lisis_de_Laboratorio_Suelos_en_Colombia.csv")
+
+
+###
+
+#### rename variables ####
+
+Analisis_suelos <- Analisis_suelos %>%
+  rename(pH = "pH.agua.suelo.2.5.1.0",
+         'M.O' = Materia.orgánica..MO...,
+         "P_Bray_mg_kg-1" =Fósforo..P..Bray.II.mg.kg,
+         'S_mg_kg-1' = "Azufre..S..Fosfato.monocalcico.mg.kg" ,
+         'H+' = "Acidez..Al.H..KCL.cmol....kg",
+         'Al3+_cmol_kg-1' = "Aluminio..Al..intercambiable.cmol....kg",
+         'Ca2+_cmol_kg-1' = "Calcio..Ca..intercambiable.cmol....kg",
+         'Mg2+_cmol_kg-1' = "Magnesio..Mg..intercambiable.cmol....kg",
+         'K+_mg_kg-1'  = "Potasio..K..intercambiable.cmol....kg",
+         'Na2+_mg_kg-1'  = "Sodio..Na..intercambiable.cmol....kg",                              
+         'CICE' = "capacidad.de.intercambio.cationico..CICE..suma.de.bases.cmol....kg",
+         'C.E_ds_m-1' = "Conductividad.el.ctrica..CE..relacion.2.5.1.0.dS.m",
+         'Fe_mg_kg-1' = "Hierro..Fe..disponible.olsen.mg.kg",         
+         'Cu_mg_kg-1'  = "Cobre..Cu..disponible.mg.kg",                
+         'Mn_mg_kg-1' = "Manganeso..Mn..disponible.Olsen.mg.kg" ,     
+         'Zn_mg_kg_1'  = "Zinc..Zn..disponible.Olsen.mg.kg"    ,       
+         'B_mg_kg-1'  = "Boro..B..disponible.mg.kg"  ,             
+         'Fe_dob_ac_mg_kg-1'  = Hierro..Fe..disponible.doble..cido.mg.kg ,  
+         'Cu_dob_ac_mg_kg-1' = "Cobre..Cu..disponible.doble.acido.mg.kg"   , 
+         'Mn_dob_ac_mg_kg-1' =  "Manganeso..Mn..disponible.doble.acido.mg.kg",
+         'Zn_dob_ac_mg_kg-1'  = Zinc..Zn..disponible.doble..cido.mg.kg )
+
+
+
+###
+
+
+Analisis_suelos[12:33] <- sapply(Analisis_suelos[12:33],as.numeric)
+
+Analisis_suelos[2:10] <- sapply(Analisis_suelos[2:10],as.factor)
+
+
+Analisis_suelos <-Analisis_suelos %>%
+  mutate(Departamento = 
+              ifelse(Departamento == "BOYAC?\u0081", "BOYAC?",
+              ifelse(Departamento ==  "NARI?O", "NARIÑO", 
+              ifelse(Departamento == "ATL?\u0081NTICO", "ATL?NTICO",
+              ifelse(Departamento == "C?RDOBA", "CÓRDOBA",
+              ifelse(Departamento == "CAQUET?\u0081","CAQUET?",
+              ifelse(Departamento == "BOL?\u008dVAR","BOL?VAR",
+              ifelse(Departamento == "CHOC?", "CHOCÓ",
+              ifelse(Departamento == "GUAIN?\u008dA","GUAIN?A",
+              ifelse(Departamento == "BOGOT?\u0081, D.C.", "BOGOT?, D.C.",Departamento ))))))))))
+
+
+
+
+
+
+```
+
+
+## Introducción
+
+En el mundo de la agricultura, comprender la variabilidad del pH del suelo a nivel regional es de vital importancia para implementar prácticas agrícolas más precisas y sostenibles. En Colombia, un país caracterizado por su diversidad climática y geográfica, el pH del suelo puede variar significativamente de un departamento a otro. En este artículo, exploraremos un emocionante mapa del pH del suelo por departamentos en Colombia, el cual ha sido elaborado gracias a los datos de análisis de suelos proporcionados por Agrosavia, una institución líder en investigación agrícola en el país.
+
+## La relevancia del pH del suelo en la agricultura 
+
+El pH del suelo es un indicador clave de su acidez o alcalinidad y juega un papel fundamental en la disponibilidad de nutrientes esenciales para las plantas. Dado que cada cultivo tiene requisitos específicos de pH para un óptimo crecimiento, conocer la variabilidad del pH del suelo en diferentes regiones es esencial para adaptar las prácticas agrícolas a las condiciones locales y maximizar la productividad.
+
+## Mapa del pH del suelo por departamentos
+
+Agrosavia ha puesto a disposición los datos de los análisis de suelos hechos en su laboratorio de fertilidad de suelos (https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5). 
+Estos datos provienen de las muestras que agricultores de todo el país han enviado a Agrosavia para análisis de fertilidad de suelos. La Ú ltima actualización de datos fue en 2020.
+
+## Descubriendo la diversidad edáfica de Colombia*
+
+El mapa del pH del suelo por departamentos en Colombia ofrece una visión clara de las diferentes condiciones edáficas en todo el territorio. Algunas de las conclusiones más destacadas del estudio incluyen:
+
+1. **Diferencias regionales**: La costa del Caribe es la más alcalina y la región amazónica es la más ácida.
+
+
+2. **Diferencias de numero de análisis por región**: baja representación de algunos departamentos como Guainía, Amazonas y Vichada.
+
+
+```{r ,echo=FALSE, message=FALSE, warning=FALSE, fig.cap ="Gráficos de violín y diagramas de caja del pH del suelo por departamento en Colombia. Los números azules muestran la cantidad de análisis incluidos, mientras que los números rojos y los puntos rojos representan los promedios. "}
+
+Analisis_suelos %>% ggplot(aes(x =reorder(Departamento,-pH, na.rm = TRUE),
+                                y = pH)) +
+  geom_violin() + geom_boxplot(width = 0.1) +
+  geom_text(aes(label=..count..), y=9.5, stat='count', colour="blue", size=2) + 
+  stat_summary(fun = mean, geom = "point", col = "red") +  # Add points to plot
+  stat_summary(fun = mean, geom = "text", col = "red",  size = 2.4,  # Add text to plot
+               vjust = 13, aes(label = round(..y.., digits = 2))) +
+  theme_bw() + ylim(3,9.5) + xlab("Departamento") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust=1)) + 
+  annotate(geom="text", x=25, y=8, label="MUNERA ECHEVERRI",
+              color="red", size=2)
+
+
+
+
+```
+
+## Mapa del pH del suelo por departamento.
+
+
+
+```{r ,echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Mapa del pH del suelo por departamento."}
+
+##Mapa de Colombia
+##Once downloaded
+extraWD <- "/home/jose/Documents/Analisis_agrosavia"
+departementos <- st_read(dsn = extraWD, layer = "MGN_DPTO_POLITICO",
+                            quiet = TRUE) %>% st_transform(4326)
+##
+
+# 
+
+
+BBB <-Analisis_suelos %>% group_by(Departamento) %>%
+  summarise(pH_suelo = mean(pH, na.rm = T),
+            n = n(),
+            sd = sd(pH, na.rm = T)) %>%
+  rename(DPTO_CNMBR = Departamento )
+
+
+departementos <- departementos %>% left_join(BBB, by = "DPTO_CNMBR")
+
+
+g_dept <- ggplot(departementos) +
+  geom_sf(aes(fill = pH_suelo)) +
+  #geom_text(label = CODE_DEPT) +
+  coord_sf(crs = 4326, datum = sf::st_crs(4326)) +
+  guides(scale = "none") +
+  theme_bw() +
+  theme(title = element_text(size = 16))
+
+
+
+g_dept +  scale_fill_continuous(type = "viridis") + 
+  annotate(geom="text", x=-73, y=8, label="MUNERA ECHEVERRI",
+              color="red", size=2)
+
+
+
+
+
+```
+
+
+
+
+## Referencias:
+- Agrosavia (https://www.agrosavia.co/).
+- Datos de análisis de suelos utilizados en el proyecto (https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5).

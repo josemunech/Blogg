@@ -1,6 +1,6 @@
 ---
 title: "Sobre mi"
-description: "Agro-edafólogo"
+description: "Ingeniero agrónomo-edafólogo"
 featured_image: '/images/vista.jpg'
 menu:
   main:
@@ -12,7 +12,7 @@ menu:
  * Conocimiento a fondo del ciclo del carbono y de nutrientes en sistemas agrícolas.
  * Experiencia de investigación en Europa y en África,.
  * Experiencia en sistemas de producción para agricultores de pequeña escala en Zambia y en sistemas intensivos de producción en Colombia.
- * Experiencia en manejo de gran cantidad de datos utilizando el software R. 
+ * Experiencia en big data. 
  * Dominio del inglés y francés.
  
  
@@ -63,7 +63,6 @@ Kyamanywa, B. R. Singh, G. Nabanoga, & R. Lal (Eds.), Agriculture and ecosystem 
 under changing climate (pp. 129–144). Springer International Publishing. https://doi.org/10.1007/978-3-030-12974-3_6
 
 * Munera‑Echeverri, J. L., Martinsen, V., Strand, L. T., Zivanovic, V., Cornelissen, G., & Mulder, J. (2018). Cation exchange capac‑
-ity of biochar: An urgent method modification [Journal Article]. Sci Total Environ, 642, 190–197. https://doi.org/10.1016/j.
-scitotenv.2018.06.017
+ity of biochar: An urgent method modification [Journal Article]. Sci Total Environ, 642, 190–197. https://doi.org/10.1016/j.scitotenv.2018.06.017
 
 <!-- A list is also available [online](http://scholar.google.co.uk/citations?user=LTOTl0YAAAAJ) -->
