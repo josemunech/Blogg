@@ -26,7 +26,20 @@ El pH del suelo es un indicador clave de su acidez o alcalinidad y juega un pape
 Agrosavia ha puesto a disposición los datos de los análisis de suelos hechos en su laboratorio de fertilidad de suelos (https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5). 
 Estos datos provienen de las muestras que agricultores de todo el país han enviado a Agrosavia para análisis de fertilidad de suelos. La Ú ltima actualización de datos fue en 2020.
 
-## Descubriendo la diversidad edáfica de Colombia*
+## Descubriendo la diversidad edáfica de Colombia
+## Mapa del pH del suelo por departamento.
+
+
+
+<div class="figure">
+<img src="/es/post/pH_files/figure-html/unnamed-chunk-1-1.png" alt="Mapa del pH del suelo por departamento." width="672" />
+<p class="caption"><span id="fig:unnamed-chunk-1"></span>Figure 1: Mapa del pH del suelo por departamento.</p>
+</div>
+
+
+
+
+
 
 El mapa del pH del suelo por departamentos en Colombia ofrece una visión clara de las diferentes condiciones edáficas en todo el territorio. Algunas de las conclusiones más destacadas del estudio incluyen:
 
@@ -37,21 +50,9 @@ El mapa del pH del suelo por departamentos en Colombia ofrece una visión clara 
 
 
 <div class="figure">
-<img src="/es/post/pH_files/figure-html/unnamed-chunk-1-1.png" alt="Figura 1. Gráficos de violín y diagramas de caja del pH del suelo por departamento en Colombia. Los números azules muestran la cantidad de análisis incluidos, mientras que los números rojos y los puntos rojos representan los promedios. " width="672" />
-<p class="caption"><span id="fig:unnamed-chunk-1"></span>Figure 1: Figura 1. Gráficos de violín y diagramas de caja del pH del suelo por departamento en Colombia. Los números azules muestran la cantidad de análisis incluidos, mientras que los números rojos y los puntos rojos representan los promedios. </p>
+<img src="/es/post/pH_files/figure-html/unnamed-chunk-2-1.png" alt="Gráficos de violín y diagramas de caja del pH del suelo por departamento en Colombia. Los números azules muestran la cantidad de análisis incluidos, mientras que los números rojos y los puntos rojos representan los promedios. " width="672" />
+<p class="caption"><span id="fig:unnamed-chunk-2"></span>Figure 2: Gráficos de violín y diagramas de caja del pH del suelo por departamento en Colombia. Los números azules muestran la cantidad de análisis incluidos, mientras que los números rojos y los puntos rojos representan los promedios. </p>
 </div>
-
-## Mapa del pH del suelo por departamento.
-
-
-
-<div class="figure">
-<img src="/es/post/pH_files/figure-html/unnamed-chunk-2-1.png" alt="Figura 2. Mapa del pH del suelo por departamento." width="672" />
-<p class="caption"><span id="fig:unnamed-chunk-2"></span>Figure 2: Figura 2. Mapa del pH del suelo por departamento.</p>
-</div>
-
-
-
 
 ## Referencias:
 - Agrosavia (https://www.agrosavia.co/).
