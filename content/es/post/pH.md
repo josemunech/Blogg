@@ -26,7 +26,7 @@ El pH del suelo es un indicador clave de su acidez o alcalinidad y juega un pape
 Agrosavia ha puesto a disposición los datos de los análisis de suelos hechos en su laboratorio de fertilidad de suelos (https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5). 
 Estos datos provienen de las muestras que agricultores de todo el país han enviado a Agrosavia para análisis de fertilidad de suelos. La Ú ltima actualización de datos fue en 2020.
 
-## Descubriendo la diversidad edáfica de Colombia
+
 ## Mapa del pH del suelo por departamento.
 
 
