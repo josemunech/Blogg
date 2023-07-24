@@ -96,9 +96,6 @@ Agrosavia ha puesto a disposición los datos de los análisis de suelos hechos e
 Estos datos provienen de las muestras que agricultores de todo el país han enviado a Agrosavia para análisis de fertilidad de suelos. La Ú ltima actualización de datos fue en 2020.
 
 
-## Mapa del pH del suelo por departamento.
-
-
 
 ```{r ,echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Mapa del pH del suelo por departamento."}
 
