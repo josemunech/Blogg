@@ -1,5 +1,5 @@
 ---
-title: "Ecofresca Data"
+title: "Ecof Data"
 
 description: "Explorando la Agricultura, Ciencia de Suelos y Ciencia de Datos"
 cascade:
