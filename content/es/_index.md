@@ -1,5 +1,5 @@
 ---
-title: "Suelo Fértil"
+title: "Ecofresca Data"
 
 description: "Explorando la Agricultura, Ciencia de Suelos y Ciencia de Datos"
 cascade:
