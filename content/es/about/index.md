@@ -1,7 +1,7 @@
 ---
 title: "Sobre mi"
 description: "Ingeniero agrónomo-edafólogo"
-featured_image: '/images/vista.jpg'
+featured_image: '/images/suelo.jpg'
 menu:
   main:
     weight: 1

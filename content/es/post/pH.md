@@ -1,6 +1,7 @@
 ---
 title: "Mapa del pH del suelo por departamentos en Colombia: Revelando la diversidad edáfica del país gracias a la base de datos abierta de Agrosavia."
 author: Jose Luis Munera Echeverri
+featured_image: "/images/ph_col.png"
 output:
   html_document: 
     toc: yes
