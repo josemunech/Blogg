@@ -42,8 +42,7 @@ __Pregrado: Ingenieria agronomica__.
 * Sharififar, A., Minasny, B., Arrouays, D., Boulonne, L., Chevallier, T., van Deventer, P., Field, D. J., Gomez, C., Jang, H.‑J., Jeon, S.‑H.,
 Koch, J., McBratney, A. B., Malone, B. P., Marchant, B. P., Martin, M. P., Monger, C., Munera‑Echeverri, J.‑L., Padarian, J., Pfeiffer, M., …
 van Zijl, G. (2023). Chapter four ‑ soil inorganic carbon, the other and equally important soil carbon pool: Distribution, controlling factors,
-and the impact of climate change (D. L. Sparks, Ed.; Vol. 178, pp. 165–231). Academic Press. https://doi.org/https://doi.org/10.
-1016/bs.agron.2022.11.005
+and the impact of climate change (D. L. Sparks, Ed.; Vol. 178, pp. 165–231). Academic Press. https://doi.org/https://doi.org/10.1016/bs.agron.2022.11.005
 
 * Munera‑Echeverri, J. L., Martinsen, V., Dörsch, P., Obia, A., & Mulder, J. (2022). Pigeon pea biochar addition in tropical arenosol under
 maize increases gross nitrification rate without an effect on nitrous oxide emission [Journal Article]. Plant and Soil, 474(1), 195–212.
