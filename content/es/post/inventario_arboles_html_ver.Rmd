@@ -1,0 +1,420 @@
+---
+title: "Como hacer un inventario detallado de árboles de aguacate con un GPS y un celular."
+author: "Ecofresca SAS"
+date: "2023-07-29"
+output: html_document
+---
+
+  
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(sf)
+library(dplyr)
+library(raster)
+library(leaflet)
+library(ggmap)
+library(rgdal)
+library(knitr)
+
+
+#### essay ####
+#setwd("/home/jose/Documents/dev")
+
+
+
+#DATOS DE ARBOLES
+
+data <- read.table("/home/jose/Documents/dev/data/Inventario_de_aguacates.txt", sep = "" , header = T , #nrows = 58,
+                   na.strings ="", stringsAsFactors= F, encoding="UTF-8") %>%
+        as.data.frame()
+
+
+
+points1 <- readOGR(dsn = "/home/jose/Documents/dev/data/Waypoints_07-DEC-22.gpx", layer = "waypoints") %>%
+  as.data.frame() %>%
+  dplyr::select(name, ele, coords.x1, coords.x2 ) %>%
+  dplyr::rename(Punto_gps = name) %>%
+  dplyr::mutate(Punto_gps = as.integer(Punto_gps))
+
+
+points2 <- readOGR(dsn = "/home/jose/Documents/dev/data/Waypoints_10-DEC-22.gpx", layer = "waypoints") %>%
+  as.data.frame() %>%
+  dplyr::select(name, ele, coords.x1, coords.x2 ) %>%
+  dplyr::rename(Punto_gps = name) %>%
+  dplyr::mutate(Punto_gps = as.integer(Punto_gps))
+
+ points <- rbind(points1,points2 ) %>% as.data.frame()
+
+
+
+#
+
+inventario <- data %>% left_join(points, by = "Punto_gps") %>%
+                mutate(color= as.factor(color),
+                  lote= as.factor(lote),
+                     tamaño = ifelse(tamaño=="g", "grande",
+                                   ifelse(tamaño=="mg","demasiado grande",
+                                          ifelse(tamaño=="m","mediano",
+                                                 ifelse(tamaño=="p","pequeño",
+                                                        "vacío")))),
+             Producción = ifelse(prod_impr=="p", "Productivo",
+                                 "No productivo"),
+             Descripción = 
+               ifelse(detalle == "ok", "Árboles en buen estado",
+                ifelse(detalle == "am","Árboles amarillos",
+                 ifelse(detalle %in% c("z1","z0.5", "z2", "zc1"),"Zoca",
+                  ifelse(detalle %in% c("r1.5", "r2", "r1"),"Resiembra",
+                    ifelse(detalle == "er", "Espacio de Resiembra",
+                     ifelse(detalle == "mue", "Árboles muertos", NA)))))),
+             Follage = 
+                ifelse(color %in% c("3","4"),"3. Verde",
+                  ifelse(color == "2", "2.Comienzo de amarillamiento",
+                   ifelse(color == "1", "1. Amarillamiento avanzado","0. Sin follage"))),
+             Zocas =
+               ifelse(detalle == "z2", "2 años",
+                ifelse(detalle == "z1", "1 año",
+                 ifelse(detalle == "z0.5", "Menos de 6 meses", 
+                  ifelse(detalle == "zc1", "Zoca criollo",NA)))),
+             Resiembras =
+               ifelse(detalle == "r1", "1 año",
+                ifelse(detalle == "r1.5", "1.5 años",
+                 ifelse(detalle == "r2", "2 años",
+                  ifelse(detalle %in% c("rc","rc2"), "Criollos",NA)))))
+
+
+
+```
+
+
+
+
+Para una gestión adecuada de una plantación de aguacates es necesario saber la cantidad de árboles y el estado fitosanitario y productivo de cada árbol.
+
+En Ecofresca desarrollamos y ponemos a disposición una metodología y un código para generar un inventario de árboles como el que se muestra al final de esta página.
+
+
+Para hacer este inventario solo necesitamos un GPS para georreferenciar cada árbol y un celular para anotar el estado de cada árbol en un archivo de texto. En Ecofresca hacemos el inventario con dos personas: una para tomar los puntos del GPS y otra para hacer las anotaciones en el celular.
+
+Materiales:
+
+GPS: En Ecofresca utilizamos un GPS marca Garmin. Mientras más preciso sea, mejor. Se puede utilizar otro tipo de GPS, pero lo importante es que el dispositivo permita tener un archivo GPX con la información de cada punto. Es importante vaciar el contenido antiguo del GPS para tener espacio libre para los nuevos puntos. A nuestro GPS en Ecofresca le caben 2000 puntos, lo cual es suficiente para hacer el inventario de nuestra finca.
+
+Celular: los datos sobre el estado de cada árbol se almacenan en una nota en el celular. Esta genera un archivo .txt. El formato del archivo es el siguiente:
+
+{{< figure src="/images/tabla.png" title="Formato en nota del celular " >}}
+
+El formato tiene 6 principales columnas separadas por un espacio (solo un espacio).
+
+1. Punto_GPS: Corresponde al código que el GPS asigna a cada punto. En el ejemplo podemos ver que el primer árbol tiene el número 440 y el último el 448. Es importante anotar correctamente el número que asigna el GPS y ponerlo en la misma línea del árbol que se está describiendo.
+
+2. prod_impr: Esta columna es para calificar si el árbol es productivo o improductivo. Si es productivo, se marca 'p'; si no es productivo, 'np'.
+
+3. tamaño: las categorías son 'mg' para muy (demasiado) grande, 'g' para grande, 'm' para mediano, 'p' para pequeño, y 'v' si se trata de un espacio vacío (sin árbol).
+
+4. detalle: es una descripción sobre el estado del árbol. Las categorías son: 'ok' para árboles en buen estado, 'am' para árboles con amarillamientos, 'er' para espacios de resiembra (sitios vacíos), 'mue' para árboles muertos. Para los  árboles resembrados usamos la letra ‘r’ junto a la edad del  árbol resembrado.  ‘r1’ para resiembra de un año o menos, ‘r1.5’ para resiembras de año y medio, y ‘r2’ para resiembras de dos años.Para las zocas usamos la letra 'z' junto a la edad de la zoca: 'z2' zoca de 2 años, 'z1' zoca de un año, y 'z0.5' para zoca de medio año.
+
+5. color: es una escala de 0 a 3 para describir el color. '0' para árboles sin follaje, '1' para árboles con un amarillamiento muy avanzado, '2' para árboles con comienzo de amarillamiento, y '3' para árboles de color verde normal.
+
+6. lote: número del lote según la denominación propia de cada finca.
+
+# Este es el inventario
+
+## Total sitios
+
+```{r, echo=FALSE}
+
+
+tot_sit <-inventario %>% summarise(Cantidad = n()) %>%
+  mutate(item = "Total sitios")  %>%
+  relocate(Cantidad, .after = item)
+
+tot_arb <- inventario %>% filter(!tamaño == "vacío") %>%
+  summarise(Cantidad = n()) %>%
+  mutate(item = "Total árboles")  %>%
+  relocate(Cantidad, .after = item)
+
+tot_vac <- inventario %>%  filter(tamaño == "vacío") %>%
+  summarise(Cantidad = n()) %>% mutate(item = "Total sitios vacíos") %>%
+  relocate(Cantidad, .after = item)
+
+
+
+kable(rbind(tot_sit, tot_arb, tot_vac))
+
+```
+
+
+```{r, echo=F, message=F}
+
+
+inventario %>% ggplot() + geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         color = lote,
+                                         stroke = 1)) + 
+  theme_bw() + ggtitle("Lotes finca El Coral") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_brewer(palette = "Dark2")
+
+```
+
+
+## Total árboles
+
+```{r, echo=F}
+
+tama <- inventario %>% filter(!tamaño == "vacío") %>% 
+  mutate(tamaño = ifelse(tamaño == "demasiado grande", "grande", tamaño)) %>%
+  rename(item = tamaño) %>%
+  group_by(item) %>% summarise(Cantidad = n())
+
+
+
+tot_arb <- inventario %>%  filter(!tamaño == "vacío") %>%
+  summarise(Cantidad = n()) %>% mutate(item = "Total árboles") %>%
+  relocate(Cantidad, .after = item)
+
+
+
+kable(rbind( tama, tot_arb))
+
+```
+
+## Sitios y árboles por lote
+
+```{r, echo=F, warning=FALSE}
+
+
+sitios <- inventario %>% group_by(lote) %>% summarise(sitios = n()) 
+
+
+arboles <-inventario %>% filter(!tamaño == "vacío") %>% 
+  group_by(lote) %>% summarise(Total_árboles = n())
+
+grandes <- inventario %>% filter(tamaño %in% c("demasiado grande",
+                                               "grande") ) %>% 
+  group_by(lote) %>% summarise(Grandes = n())
+
+medianos <- inventario %>% filter(tamaño %in% c("mediano") ) %>% 
+  group_by(lote) %>% summarise(Medianos = n())
+
+peque <- inventario %>% filter(tamaño %in% c("pequeño") ) %>% 
+  group_by(lote) %>% summarise(Pequeños = n())
+
+vac <- inventario %>% filter(tamaño %in% c("vacío") ) %>% 
+  group_by(lote) %>% summarise(Vacíos = n())
+
+kable(sitios %>% left_join(arboles, by = "lote") %>% left_join(grandes, by = "lote") %>%
+   left_join(medianos, by = "lote") %>% left_join(peque, by ="lote") %>%
+     left_join(vac, by ="lote") )
+
+
+```
+
+### Distribución espacial de tamaños
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+inventario %>% ggplot() + geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = tamaño,
+                                         color = tamaño,
+                                         stroke = 1)) + 
+  theme_bw() + ggtitle("Distribución espacial de tamaños El Coral") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_brewer(palette = "Dark2")
+
+
+
+```
+
+## Total de sitios productivos y no productivos
+
+```{r, echo=F}
+
+kable(inventario %>% group_by(Producción) %>% summarise(sitios = n()) )
+
+
+```
+
+### Distribución espacial de árboles productivos
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+inventario %>% ggplot() + geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Producción,
+                                         color = Producción,
+                                         stroke = 1)) + 
+  theme_bw() + ggtitle("Sitios productivos finca El Coral") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_brewer(palette = "Dark2")
+
+
+
+```
+
+### Productividad por tamaños
+
+```{r, echo=F, message=F, warning=FALSE}
+
+kable(inventario %>%
+    mutate(tamaño = ifelse(tamaño == "demasiado grande", "grande", tamaño)) %>%
+    group_by(tamaño,Producción) %>% summarise(sitios = n()) )
+
+```
+
+## Descripción de los árboles
+
+```{r, echo = F, , message=F, warning=FALSE}
+
+
+kable(inventario %>% #filter(Descripción == "Árboles amarillos") %>%
+        group_by(Descripción) %>%
+        summarise(sitios = n()) )
+
+
+```
+
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+inventario %>% ggplot() + geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Descripción,
+                                         color = Descripción,
+                                         stroke = 1)) + 
+  theme_bw() + ggtitle("Descripción de árboles finca El Coral") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_brewer(palette = "Dark2")
+
+
+```
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+inventario %>% ggplot() + geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Follage,
+                                         color = Follage,
+                                         fill = Follage,
+                                         stroke = 1)) + 
+  theme_bw() + ggtitle("Descripción de árboles finca El Coral") +
+  scale_fill_brewer(palette = "YlGn") +
+  scale_color_brewer(palette = "YlGn")
+
+
+```
+
+## Amarillamientos 
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+
+kable(inventario %>% filter(Descripción == "Árboles amarillos") %>%
+        group_by(Follage) %>%
+        summarise(sitios = n()) )
+
+
+```
+
+```{r, echo=F, message=FALSE, warning=FALSE}
+
+
+inventario  %>% filter(Descripción == "Árboles amarillos") %>% 
+  ggplot() + 
+  geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Follage,
+                                         color = Follage,
+                                          stroke = 1.5)) + 
+  theme_bw() + ggtitle("Distribución de árboles con amarillamiento finca El Coral") +
+  scale_fill_brewer(palette = "Dark2") +
+  scale_color_brewer(palette = "Dark2")
+
+
+```
+
+
+
+## Zocas 
+
+```{r, echo=F, message=F, warning=FALSE}
+
+
+kable(inventario %>% filter(Descripción == "Zoca") %>%
+        group_by(Zocas) %>%
+        summarise(sitios = n()) )
+
+
+```
+
+```{r, echo=F, message=F}
+
+inventario  %>% filter(Descripción == "Zoca") %>% 
+  ggplot() + 
+  geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Follage,
+                                         color = Follage,
+                                          stroke = 1.5)) + 
+  theme_bw() + ggtitle("Zocas finca El Coral") +
+  scale_fill_brewer(palette = "YlGn") +
+  scale_color_brewer(palette = "YlGn")
+
+
+
+```
+
+
+
+## Resiembras 
+
+```{r, echo=F, message=F}
+
+
+kable(inventario %>% filter(Descripción == "Resiembra") %>%
+        group_by(Resiembras) %>%
+        summarise(sitios = n()) )
+
+
+```
+
+
+
+```{r, echo=F}
+
+inventario  %>% filter(Descripción == "Resiembra") %>% 
+  ggplot() + 
+  geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Resiembras,
+                                         color = Resiembras,
+                                          stroke = 1.5)) + 
+  theme_bw() + ggtitle("Resiembra finca El Coral") +
+  scale_fill_brewer(palette = "YlGn") +
+  scale_color_brewer(palette = "YlGn")
+
+
+
+```
+
+
+```{r, echo=F}
+
+inventario  %>% filter(Descripción == "Resiembra") %>% 
+  ggplot() + 
+  geom_point(aes(x =coords.x1 , y=coords.x2,
+                                         shape = Follage,
+                                         color = Follage,
+                                          stroke = 1.5)) + 
+  theme_bw() + ggtitle("Follage de resiembra finca El Coral") +
+  scale_fill_brewer(palette = "YlGn") +
+  scale_color_brewer(palette = "YlGn")
+
+
+
+```
+
+
+
