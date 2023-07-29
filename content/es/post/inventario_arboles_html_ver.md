@@ -44,7 +44,7 @@ El formato tiene 6 principales columnas separadas por un espacio (solo un espaci
 
 6. lote: número del lote según la denominación propia de cada finca.
 
-# Este es el inventario
+# Este es el inventario de la finca El Coral
 
 ## Total sitios
 
