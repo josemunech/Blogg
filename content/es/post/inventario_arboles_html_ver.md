@@ -27,7 +27,8 @@ GPS: En Ecofresca utilizamos un GPS marca Garmin. Mientras más preciso sea, mej
 
 Celular: los datos sobre el estado de cada árbol se almacenan en una nota en el celular. Esta genera un archivo .txt. El formato del archivo es el siguiente:
 
-{{< figure src="/images/tabla.png" title="Formato en nota del celular " >}}
+
+{{< figure src="/images/tabla.png" title="Asi luce el formato de los datos en una nota del celular " >}}
 
 El formato tiene 6 principales columnas separadas por un espacio (solo un espacio).
 
