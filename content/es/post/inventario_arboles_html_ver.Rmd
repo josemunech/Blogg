@@ -1,5 +1,5 @@
 ---
-title: "Como hacer un inventario detallado de árboles de aguacate con un GPS y un celular."
+title: "Cómo hacer un inventario detallado de árboles de aguacate con un GPS y un celular."
 author: "Ecofresca SAS"
 date: "2023-07-29"
 output: html_document
@@ -131,7 +131,7 @@ Para hacer el inventario en nuestra aplicación se necesita el archivo .txt, y e
 
 https://josemun.shinyapps.io/inventario/ 
 
-Archivos para probar la aplicqcion:
+Archivos para probar la aplicación:
 
 [Download file](/files/Inventario_de_aguacates.txt)
 
