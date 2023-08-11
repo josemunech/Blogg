@@ -89,12 +89,12 @@ inventario <- data %>% left_join(points, by = "Punto_gps") %>%
 
 ```
 
-
+ 
 
 
 Para una gestión adecuada de una plantación de aguacates es necesario saber la cantidad de árboles y el estado fitosanitario y productivo de cada árbol.
 
-En Ecofresca desarrollamos y ponemos a disposición una metodología y un código para generar un inventario de árboles como el que se muestra al final de esta página.
+En Ecofresca desarrollamos y ponemos a disposición una metodología y una aplicación web ( https://josemun.shinyapps.io/inventario/ ) para generar un inventario de árboles como el que se muestra al final de esta página.
 
 
 Para hacer este inventario solo necesitamos un GPS para georreferenciar cada árbol y un celular para anotar el estado de cada árbol en un archivo de texto. En Ecofresca hacemos el inventario con dos personas: una para tomar los puntos del GPS y otra para hacer las anotaciones en el celular.
@@ -109,7 +109,7 @@ Celular: los datos sobre el estado de cada árbol se almacenan en una nota en el
 
 El formato tiene 6 principales columnas separadas por un espacio (solo un espacio).
 
-1. Punto_GPS: Corresponde al código que el GPS asigna a cada punto. En el ejemplo podemos ver que el primer árbol tiene el número 440 y el último el 448. Es importante anotar correctamente el número que asigna el GPS y ponerlo en la misma línea del árbol que se está describiendo.
+1. Punto_gps: Corresponde al código que el GPS asigna a cada punto. En el ejemplo podemos ver que el primer árbol tiene el número 440 y el último el 448. Es importante anotar correctamente el número que asigna el GPS y ponerlo en la misma línea del árbol que se está describiendo.
 
 2. prod_impr: Esta columna es para calificar si el árbol es productivo o improductivo. Si es productivo, se marca 'p'; si no es productivo, 'np'.
 
@@ -120,6 +120,24 @@ El formato tiene 6 principales columnas separadas por un espacio (solo un espaci
 5. color: es una escala de 0 a 3 para describir el color. '0' para árboles sin follaje, '1' para árboles con un amarillamiento muy avanzado, '2' para árboles con comienzo de amarillamiento, y '3' para árboles de color verde normal.
 
 6. lote: número del lote según la denominación propia de cada finca.
+
+Agradecimientos
+
+Agradecemos al ingeniero agrónomo Nodier Herrera por compartir sus conocimientos del cultivo del aguacate y por su ayuda en el desarrollo de la metodología.
+
+# Aplicación web 
+ 
+Para hacer el inventario en nuestra aplicación se necesita el archivo .txt, y el o los archivos GPX. Por el momento se puede máximo utilizar 3 arichivos GPX.
+
+https://josemun.shinyapps.io/inventario/ 
+
+Archivos para probar la aplicqcion:
+
+[Download file](/files/Inventario_de_aguacates.txt)
+
+[Download file](/files/Waypoints_07-DEC-22.gpx)
+
+[Download file](/files/Waypoints_10-DEC-22.gpx) 
 
 # Este es el inventario
 
