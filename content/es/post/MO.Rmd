@@ -1,7 +1,6 @@
 ---
 title: "Municipios con mas y menos contenido de materia orgánica del suelo según la base de datos abierta de Agrosavia."
 author: Jose Luis Munera Echeverri
-featured_image: "/images/ph_col.png"
 output:
   html_document: 
     toc: yes
