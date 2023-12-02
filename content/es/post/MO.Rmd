@@ -1,0 +1,182 @@
+---
+title: "Municipios con mas y menos contenido de materia orgánica del suelo según la base de datos abierta de Agrosavia."
+author: Jose Luis Munera Echeverri
+featured_image: "/images/ph_col.png"
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: true
+date: "2023-11-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(sf)
+
+#Define the folder
+
+
+#setwd("/home/jose/Documents")
+
+Analisis_suelos<-read.csv("/home/jose/Documents/Analisis_agrosavia/Resultados_de_An_lisis_de_Laboratorio_Suelos_en_Colombia.csv")
+
+
+###
+
+#### rename variables ####
+
+Analisis_suelos <- Analisis_suelos %>%
+  rename(pH = "pH.agua.suelo.2.5.1.0",
+         'M.O' = Materia.orgánica..MO...,
+         "P_Bray_mg_kg-1" =Fósforo..P..Bray.II.mg.kg,
+         'S_mg_kg-1' = "Azufre..S..Fosfato.monocalcico.mg.kg" ,
+         'H+' = "Acidez..Al.H..KCL.cmol....kg",
+         'Al3+_cmol_kg-1' = "Aluminio..Al..intercambiable.cmol....kg",
+         'Ca2+_cmol_kg-1' = "Calcio..Ca..intercambiable.cmol....kg",
+         'Mg2+_cmol_kg-1' = "Magnesio..Mg..intercambiable.cmol....kg",
+         'K+_mg_kg-1'  = "Potasio..K..intercambiable.cmol....kg",
+         'Na2+_mg_kg-1'  = "Sodio..Na..intercambiable.cmol....kg",                              
+         'CICE' = "capacidad.de.intercambio.cationico..CICE..suma.de.bases.cmol....kg",
+         'C.E_ds_m-1' = "Conductividad.el.ctrica..CE..relacion.2.5.1.0.dS.m",
+         'Fe_mg_kg-1' = "Hierro..Fe..disponible.olsen.mg.kg",         
+         'Cu_mg_kg-1'  = "Cobre..Cu..disponible.mg.kg",                
+         'Mn_mg_kg-1' = "Manganeso..Mn..disponible.Olsen.mg.kg" ,     
+         'Zn_mg_kg_1'  = "Zinc..Zn..disponible.Olsen.mg.kg"    ,       
+         'B_mg_kg-1'  = "Boro..B..disponible.mg.kg"  ,             
+         'Fe_dob_ac_mg_kg-1'  = Hierro..Fe..disponible.doble..cido.mg.kg ,  
+         'Cu_dob_ac_mg_kg-1' = "Cobre..Cu..disponible.doble.acido.mg.kg"   , 
+         'Mn_dob_ac_mg_kg-1' =  "Manganeso..Mn..disponible.doble.acido.mg.kg",
+         'Zn_dob_ac_mg_kg-1'  = Zinc..Zn..disponible.doble..cido.mg.kg )
+
+
+
+###
+
+
+Analisis_suelos[12:33] <- sapply(Analisis_suelos[12:33],as.numeric)
+
+Analisis_suelos[2:10] <- sapply(Analisis_suelos[2:10],as.factor)
+
+
+Analisis_suelos <-Analisis_suelos %>%
+  mutate(Departamento = 
+              ifelse(Departamento == "BOYAC?\u0081", "BOYAC?",
+              ifelse(Departamento ==  "NARI?O", "NARIÑO", 
+              ifelse(Departamento == "ATL?\u0081NTICO", "ATL?NTICO",
+              ifelse(Departamento == "C?RDOBA", "CÓRDOBA",
+              ifelse(Departamento == "CAQUET?\u0081","CAQUET?",
+              ifelse(Departamento == "BOL?\u008dVAR","BOL?VAR",
+              ifelse(Departamento == "CHOC?", "CHOCÓ",
+              ifelse(Departamento == "GUAIN?\u008dA","GUAIN?A",
+              ifelse(Departamento == "BOGOT?\u0081, D.C.", "BOGOT?, D.C.",Departamento ))))))))))
+
+
+
+
+
+
+```
+
+
+## Introducción
+
+La materia orgánica del suelo es el reservorio de carbono mas grande de la superficie terrestre, despues de los oceanos. La materia orgánica del suelo tambien es un factor crucial que determina la calidad del suelo. La base de datos de análisis de suelos de Agrosavia es una importante fuente de informacion para conocer las propiedades del suelo a nivel nacional en Colombia. En esta publicacion se muestra la distribucion a nivel nacional de la materia orgánica del suelo por municipio, y dos tablas con los municipios que mas y menos registran materia organica en el suelo.
+
+
+## Mapa de la materia orgánica del suelo por municipio
+
+Agrosavia ha puesto a disposición los datos de los análisis de suelos hechos en su laboratorio de fertilidad de suelos ( https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5 ). 
+Estos datos provienen de las muestras que agricultores de todo el país han enviado a Agrosavia para análisis de fertilidad de suelos. La Última actualización de datos fue en 2020.
+
+
+
+```{r ,echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Mapa del contenido de materia orgánica del suelo (%) por Municipio."}
+
+##Mapa de Colombia
+##Once downloaded
+extraWD <- "/home/jose/Documents/Analisis_agrosavia"
+departementos <- st_read(dsn = extraWD, layer = "MGN_MPIO_POLITICO",
+                            quiet = TRUE) %>% st_transform(4326)
+
+
+# 
+
+
+BBB <-Analisis_suelos %>% 
+  dplyr::mutate(Municipio = as.factor(Municipio) ) %>%
+  dplyr::group_by(Municipio, Departamento) %>%
+  dplyr::summarise(Mat.Org = mean(M.O, na.rm = T),
+                   ds_MO = stats::sd(M.O, na.rm = T),
+                    n = n()   ) %>%
+  dplyr::rename(MPIO_CNMBR = Municipio )
+
+
+departementos <- departementos %>% left_join(BBB, by = "MPIO_CNMBR")
+
+
+g_dept <- ggplot(departementos) +
+  geom_sf(aes(fill = Mat.Org)) +
+  #geom_text(label = CODE_DEPT) +
+  coord_sf(crs = 4326, datum = sf::st_crs(4326)) +
+  guides(scale = "none") +
+  theme_bw() +
+  theme(title = element_text(size = 16))
+
+
+
+g_dept + #scale_fill_gradientn(colours = terrain.colors(100)) +
+  scale_fill_viridis_b() +
+  annotate(geom="text", x=-73, y=8, label="MUNERA ECHEVERRI",
+           color="red", size=2)
+
+
+
+
+```
+
+## Municipios con menor contenido 
+
+En esta tabla se incluyen los municipios con menos de 1.5% de materia orgánica y que tienen mas de 20 analisis disponibles en la base de datos.
+
+```{r ,echo=FALSE, message=FALSE, warning=FALSE }
+
+library(DT)
+  DT::datatable(BBB %>%
+  filter(Mat.Org < 1.5 &
+           n>20) %>%
+    arrange(Mat.Org))
+
+
+
+
+```
+
+
+
+## Municipios con mayor contenido 
+
+En esta tabla se incluyen los municipios con mas de 10% de materia orgánica y que tienen mas de 20 analisis disponibles en la base de datos.
+```{r ,echo=FALSE, message=FALSE, warning=FALSE }
+
+library(DT)
+  DT::datatable(BBB %>%
+  filter(Mat.Org > 10 &
+             n>20) %>%
+    arrange(desc(Mat.Org)))
+
+
+
+
+```
+
+
+
+
+## Referencias:
+- Agrosavia ( https://www.agrosavia.co/ ).
+- Datos de análisis de suelos utilizados en el proyecto ( https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Resultados-de-An-lisis-de-Laboratorio-Suelos-en-Co/ch4u-f3i5 ).
