@@ -112,7 +112,8 @@ BBB <-Analisis_suelos %>%
   dplyr::summarise(Mat.Org = mean(M.O, na.rm = T),
                    ds_MO = stats::sd(M.O, na.rm = T),
                     n = n()   ) %>%
-  dplyr::rename(MPIO_CNMBR = Municipio )
+  dplyr::rename(MPIO_CNMBR = Municipio ) %>%
+  filter(Mat.Org < 20)
 
 
 departementos <- departementos %>% left_join(BBB, by = "MPIO_CNMBR")
@@ -129,8 +130,8 @@ g_dept <- ggplot(departementos) +
 
 
 g_dept + #scale_fill_gradientn(colours = terrain.colors(100)) +
-  scale_fill_viridis_b() +
-  annotate(geom="text", x=-73, y=8, label="MUNERA ECHEVERRI",
+  scale_fill_viridis_b(name =  "M.O (%)", direction = -1, breaks = c(0,3,6,9,12,15,20)) +
+    annotate(geom="text", x=-73, y=8, label="MUNERA ECHEVERRI",
            color="red", size=2)
 
 
