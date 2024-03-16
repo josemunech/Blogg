@@ -39,6 +39,9 @@ __Pregrado: Ingenieria agronomica__.
 
 
 ## Publicaciones
+
+https://orcid.org/0000-0002-8162-9649
+
 * Sharififar, A., Minasny, B., Arrouays, D., Boulonne, L., Chevallier, T., van Deventer, P., Field, D. J., Gomez, C., Jang, H.‑J., Jeon, S.‑H.,
 Koch, J., McBratney, A. B., Malone, B. P., Marchant, B. P., Martin, M. P., Monger, C., Munera‑Echeverri, J.‑L., Padarian, J., Pfeiffer, M., …
 van Zijl, G. (2023). Chapter four ‑ soil inorganic carbon, the other and equally important soil carbon pool: Distribution, controlling factors,
