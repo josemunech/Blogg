@@ -11,4 +11,4 @@ menu: main
 
 Read more on [how to enable the contact form](https://github.com/theNewDynamic/gohugo-theme-ananke/#activate-the-contact-form).
 
-{{< form-contact action="https://formspree.io/jose.luis.munech@gmail.com"  >}}
+{{< form-contact action="https://formspree.io/f/xdoqyroa/jose.luis.munech@gmail.com"  >}}
