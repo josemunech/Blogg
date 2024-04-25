@@ -9,13 +9,14 @@ menu:
  
 ## Análisis de datos y estadística.
 
-* Exploración de bases de datos abiertas y big data.
-
-* Diseño y gestión de bases de datos relacionales, Postgres, SQL, no SQL.
-
 * Visualización de datos y desarrollo de nuevas perspectivas.
 
 * Estadística, modelación de datos, machine learning y cursos en R.
+
+
+* Exploración de bases de datos abiertas y big data.
+
+* Diseño y gestión de bases de datos relacionales, Postgres, SQL, no SQL.
 
 
 ## Estudios de fertilidad de suelos:
@@ -32,5 +33,7 @@ menu:
 * Evaluaciones de la calidad de la materia orgánica del suelo.
 
 * Caracterización de enmiendas orgánicas.
+
+* Estudios de almacenamiento de carbono orgánico en el suelo.
 
 ## Experimentación y evaluaciones agronómicas.
