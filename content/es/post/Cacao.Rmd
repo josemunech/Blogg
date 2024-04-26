@@ -1,0 +1,144 @@
+---
+title: "Producción de cacao en Antioquia"
+output: html_document
+date: "2024-04-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(plotly)
+
+
+
+
+agri_antioquia <- readRDS("/home/jose/Documents/dev/Agri_antioquia/Agri_antioquia/data/agri_antioquia.rds") %>%
+                  dplyr::mutate(Área.Total = as.numeric(Área.Total),
+                                Área.Producción = as.numeric(Área.Producción),
+                                Volumen.Producción = as.numeric(Volumen.Producción))
+
+
+
+
+```
+
+## Área total, área en producción, y volumen de producción.
+
+Los precios internacionales del cacao han tocado máximos históricos al sobrepasar los USD 10.000 por tonelada de grano.
+Los datos de la Gobernación de Antioquia muestran que la producción de cacao en el departamento ha venido en constante crecimiento desde los primeros años de este siglo. En 2022, el área total de cacao en el departamento fue 25.670 ha mientras que el área registrada en producción fue de 22.112 ha.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+  cacao <- agri_antioquia %>%
+    dplyr::filter(Rubro %in% c(
+      "Cacao"
+    ))  %>%
+    dplyr::group_by( Año) %>%
+    dplyr::summarise(Área_total = sum(Área.Total, na.rm = T),
+                     Área_producción = sum(Área.Producción, na.rm = T),
+                     Producción = sum(Volumen.Producción, na.rm = T),
+                     productividad_neta = Producción/Área_producción,
+                     productividad_bruta = Producción/Área_total)
+
+
+AA <- cacao %>%
+ggplot() + 
+  geom_line(aes(x = Año, y = Área_total, color = "Total"  ),
+            linewidth = 2) +
+  geom_line(aes(x = Año, y = Área_producción, color = "Producción" ),
+              linewidth = 2) +
+  ylab("Área (ha)") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 20),
+        axis.text.y = element_text( size = 20),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12))
+
+
+
+
+
+ggplotly(AA)
+
+
+
+
+```
+
+
+La producción total del año 2022  en Antioquiafue de 15.888 toneladas. Suponiendo que en 2024 se llegue a la misma producción, con un precio de USD 10.000 por tonelada, los beneficios para los productores de cacao del departamento podrían sobrepasar los USD 159`.000.000.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+BB <- cacao %>%
+ggplot() + 
+  geom_line(aes(x = Año, y = Producción ),
+            linewidth = 2) +
+  
+  ylab("Producción (toneladas)") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 20),
+        axis.text.y = element_text( size = 20),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12))
+
+
+ggplotly(BB)
+
+```
+
+
+## Por subregiones
+
+La región más beneficiada sería Urabá, donde se encuentran las mayores extensiones del cultivo y también las mayores producciones. Sin duda es una gran noticia para los campesinos de las zonas más apartadas y olvidadas del departamento. Sin embargo, para la mayoría de antioqueños el desayuno ya se ha puesto más caro. 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE,fig.height=10, fig.width=15}
+
+
+  cacao_subregion <- agri_antioquia %>%
+    dplyr::filter(Rubro %in% c(
+      "Cacao"
+    ))  %>%
+    dplyr::group_by(Subregion, Año) %>%
+    dplyr::summarise(Área_total = sum(Área.Total, na.rm = T),
+                     Área_producción = sum(Área.Producción, na.rm = T),
+                     Producción = sum(Volumen.Producción, na.rm = T),
+                     productividad_neta = Producción/Área_producción,
+                     productividad_bruta = Producción/Área_total)
+
+
+
+DD <- cacao_subregion %>%
+ggplot() + 
+  geom_line(aes(x = Año, y = Producción ),
+            linewidth = 2) +
+  ylab("Producción (toneladas)")  +
+  facet_wrap(~Subregion, scales = "free_y") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 12),
+        axis.text.y = element_text( size = 12),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12),
+        strip.text = element_text(
+    size = 12))
+
+ggplotly(DD)
+
+
+
+```
+
+
+
+## Referencias:
+
+- Datos de obtenidos de ( https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Areas-cultivadas-y-produccion-agr-cola-en-Antioqui/t2ca-uae5/about_data ).
+
+
+

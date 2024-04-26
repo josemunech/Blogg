@@ -16,10 +16,10 @@ menu:
 
 * Exploración de bases de datos abiertas y big data.
 
-* Diseño y gestión de bases de datos relacionales, Postgres, SQL, no SQL.
+* Diseño y gestión de bases de datos relacionales, PostgreSQL.
 
 
-## Estudios de fertilidad de suelos:
+## Estudios de fertilidad de suelos.
 
 * Distribución espacial de propiedades físico-químicas y biológicas de suelos a escala national, regional y de eexplotación agrícola.
 

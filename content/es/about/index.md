@@ -8,13 +8,21 @@ menu:
 ---
 {{< figure src="/images/pic_josee.png" title="Jose Luis Munera Echeverri" >}}
 
- * Investigador en adaptación y mitigación al cambio climático en la agricultura a través del conocimiento y manejo sostenible del suelo.
- * Conocimiento a fondo del ciclo del carbono y de nutrientes en sistemas agrícolas.
- * Experiencia de investigación en Europa y en África,.
- * Experiencia en sistemas de producción para agricultores de pequeña escala en Zambia y en sistemas intensivos de producción en Colombia.
- * Experiencia en big data. 
- * Dominio del inglés y francés.
- 
+ Soy ingeniero agrónomo e investigador con una amplia gama de habilidades y experiencias:
+
+* Conocimiento práctico: He trabajado de forma práctica en el sector agrícola de Colombia, cultivando flores de corte y aguacates, y he realizado investigaciones agrícolas en Europa y África. Esto me da una buena comprensión de la agricultura en diferentes lugares.
+
+* Números y datos: Tengo habilidad con los números y el análisis de datos, lo que me ayuda a tomar mejores decisiones.
+
+* Habilidades tecnológicas: Tengo destreza en lenguajes de programación como R y Python, lo que me ayuda a analizar datos más rápido y realizar tareas de manera más eficiente.
+
+* Mapas e información: Sé cómo utilizar los Sistemas de Información Geográfica (GIS), lo que me ayuda a comprender mejor los mapas y los datos sobre las zonas de cultivo.
+
+* Gestión de datos: Sé cómo organizar y encontrar información en grandes bases de datos, lo que facilita el trabajo con grandes cantidades de datos.
+
+* Comunicación efectiva: He escrito artículos científicos y informes, lo que significa que puedo explicar cosas complicadas de forma sencilla para que todos puedan entender.
+
+* Idiomas: Hablo inglés, francés y español con fluidez, por lo que puedo comunicarme con personas de diferentes países sin problemas.
  
  
 ## Educación
