@@ -71,7 +71,7 @@ ggplotly(AA)
 ```
 
 
-La producción total del año 2022  en Antioquiafue de 15.888 toneladas. Suponiendo que en 2024 se llegue a la misma producción, con un precio de USD 10.000 por tonelada, los beneficios para los productores de cacao del departamento podrían sobrepasar los USD 159`.000.000.
+La producción total del año 2022  en Antioquia fue de 15.888 toneladas. Suponiendo que en 2024 se llegue a la misma producción, con un precio de USD 10.000 por tonelada, los beneficios para los productores de cacao del departamento podrían sobrepasar los USD 159`.000.000. Vale la pena recordar que no toda esa producción se exporta y tal vez no se vende a precios internacionales.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
