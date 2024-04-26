@@ -1,4 +1,4 @@
-Example [Hugo](https://gohugo.io) website using [GitLab Pages](https://about.gitlab.com/stages-devops-lifecycle/pages/).
+I built this website using [Hugo](https://gohugo.io) website using [GitLab Pages](https://about.gitlab.com/stages-devops-lifecycle/pages/).
 
 Learn more about GitLab Pages at the [official documentation](https://docs.gitlab.com/ce/user/project/pages/).
 

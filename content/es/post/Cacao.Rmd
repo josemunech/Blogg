@@ -110,7 +110,7 @@ La región más beneficiada sería Urabá, donde se encuentran las mayores exten
                      Área_producción = sum(Área.Producción, na.rm = T),
                      Producción = sum(Volumen.Producción, na.rm = T),
                      productividad_neta = Producción/Área_producción,
-                     productividad_bruta = Producción/Área_total)
+                     productividad_bruta = Producción/Área_total) 
 
 
 
@@ -122,17 +122,17 @@ ggplot() +
   facet_wrap(~factor(Subregion, levels = c("Urabá","Suroeste" ,"Oriente",
                                            "Occidente","Norte","Nordeste",
                                            "Magdalena Medio","Bajo Cauca")),
-             scales = "free_y", ncol = 2) +
+             scales = 'free', ncol = 2) +
   theme_bw() +
   theme(axis.text.x = element_text( size = 10),
         axis.text.y = element_text( size = 10, angle = 45),  
         axis.title.x = element_text( size = 10),
         axis.title.y = element_text( size = 10),
         strip.text = element_text(
-    size = 12))
+    size = 12),
+    panel.spacing.y = unit(3, "line"))
 
 ggplotly(DD)
-
 
 
 ```
