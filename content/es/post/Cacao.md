@@ -2,6 +2,7 @@
 title: "Producción de cacao en Antioquia"
 output: html_document
 date: "2024-04-26"
+featured_image: "/images/cacao.jpg"
 ---
 
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
