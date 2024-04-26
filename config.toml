@@ -57,6 +57,16 @@ enableRobotsTXT = true
 name = "twitter"
 url = "https://twitter.com/JosMnera2"
 
+[[params.ananke_socials]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/jose-luis-munera-echeverri-37822841/?originalSubdomain=fr"
+
+[[params.ananke_socials]]
+name = "github"
+url = "https://github.com/josemunech"
+
+
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
