@@ -98,7 +98,7 @@ ggplotly(BB)
 
 La región más beneficiada sería Urabá, donde se encuentran las mayores extensiones del cultivo y también las mayores producciones. Sin duda es una gran noticia para los campesinos de las zonas más apartadas y olvidadas del departamento. Sin embargo, para la mayoría de antioqueños el desayuno ya se ha puesto más caro. 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE,fig.height=10, fig.width=15}
+```{r, echo=FALSE, warning=FALSE, message=FALSE,fig.height=15, fig.width=7}
 
 
   cacao_subregion <- agri_antioquia %>%
@@ -119,12 +119,12 @@ ggplot() +
   geom_line(aes(x = Año, y = Producción ),
             linewidth = 2) +
   ylab("Producción (toneladas)")  +
-  facet_wrap(~Subregion, scales = "free_y") +
+  facet_wrap(~Subregion, scales = "free_y", ncol = 2) +
   theme_bw() +
-  theme(axis.text.x = element_text( size = 12),
-        axis.text.y = element_text( size = 12),  
-        axis.title.x = element_text( size = 12),
-        axis.title.y = element_text( size = 12),
+  theme(axis.text.x = element_text( size = 10),
+        axis.text.y = element_text( size = 10),  
+        axis.title.x = element_text( size = 10),
+        axis.title.y = element_text( size = 10),
         strip.text = element_text(
     size = 12))
 
