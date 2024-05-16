@@ -1,0 +1,183 @@
+---
+title: "Café en Antioquia según los datos de la gobernación"
+output: html_document
+date: "2024-05-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(sf)
+library(tmap)
+library(plotly)
+
+
+
+
+
+agri_antioquia <- readRDS("/home/jose/Documents/dev/Agri_antioquia/Agri_antioquia/data/agri_antioquia.rds") %>%
+                  dplyr::mutate(Área.Total = as.numeric(Área.Total),
+                                Área.Producción = as.numeric(Área.Producción),
+                                Volumen.Producción = as.numeric(Volumen.Producción))
+
+
+
+##Mapa de Colombia
+##Once downloaded
+extraWD <- "/home/jose/Documents/Analisis_agrosavia"
+departementos <- st_read(dsn = extraWD, layer = "MGN_MPIO_POLITICO",
+                         quiet = TRUE) %>% st_transform(4326)
+
+
+
+antioquia <- departementos %>%
+              filter(DPTO_CNMBR == "ANTIOQUIA" )
+
+
+
+```
+
+## Área en café en 2022
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+cafe <-agri_antioquia %>%
+  dplyr::filter(Rubro %in% c("Café" #,
+                            
+  ))  %>%
+  dplyr::group_by(Rubro, Año,Municipio) %>%
+  dplyr::summarise(Área_total = sum(Área.Total, na.rm = T),
+                   Área_producción = sum(Área.Producción, na.rm = T),
+                   Producción = sum(Volumen.Producción, na.rm = T),
+                   productividad_neta = Producción/Área_producción,
+                   productividad_bruta = Producción/Área_total) %>%
+  dplyr::mutate(MPIO_CNMBR = toupper(Municipio))
+  
+
+sub_cafe <- cafe %>%
+            dplyr::filter(Año %in% c(2020,2021,2022) #& Área_total >= 50
+                          ) 
+  
+
+
+antioquia_cafe <- antioquia %>% left_join(sub_cafe%>%
+                                       filter(Año == 2022) ,
+                                     by = "MPIO_CNMBR")
+   
+
+
+caf_ant <- antioquia_cafe %>%
+  dplyr::mutate(mun_ar = paste(MPIO_CNMBR,Área_total, "ha") ) %>%
+   tm_shape() +
+  tm_fill("Área_total", 
+          palette = "YlOrBr", 
+          breaks = c(0,500,2000,4000,6000,8000,10000,12000),
+          id = "mun_ar",
+          title = "%Área total (ha) en 2022") +
+  tm_borders(alpha=.4) +
+  tm_layout(legend.text.size = 0.8, 
+            legend.title.size = 0.8, frame = FALSE, legend.outside = TRUE, 
+            title = "Café en Antioquia") 
+
+
+caf_ant
+
+
+```
+
+## Área sembrada 
+
+```{r, echo=FALSE,warning=FALSE, message=FALSE}
+
+
+cafe_tot <- agri_antioquia %>%
+  dplyr::filter(Rubro %in% c(
+    "Café"
+  ))  %>%
+  dplyr::group_by( Año) %>%
+  dplyr::summarise(Área_total = sum(Área.Total, na.rm = T),
+                   Área_producción = sum(Área.Producción, na.rm = T),
+                   Producción = sum(Volumen.Producción, na.rm = T),
+                   productividad_neta = Producción/Área_producción,
+                   productividad_bruta = Producción/Área_total)
+
+
+AA <- cafe_tot %>%
+  ggplot() + 
+  geom_line(aes(x = Año, y = Área_total, color = "Total"  ),
+            linewidth = 2) +
+  geom_line(aes(x = Año, y = Área_producción, color = "Producción" ),
+            linewidth = 2) +
+  ylab("Área (ha)") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 20),
+        axis.text.y = element_text( size = 20),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12))
+
+
+ggplotly(AA)
+
+```
+
+## Producción total
+
+```{r, echo=FALSE,warning=FALSE, message=FALSE, fig.width= 6, fig.height=5}
+BB <- cafe_tot %>%
+  ggplot() + 
+  geom_line(aes(x = Año, y = Producción ),
+            linewidth = 2) +
+  
+  ylab("Producción (toneladas)") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 20),
+        axis.text.y = element_text( size = 20),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12))
+
+ggplotly(BB)
+
+```
+
+## Productividad
+
+$$
+Productividad\;neta = \frac{Producción}{Área\;en\;producción}
+$$
+
+$$
+Productividad\;bruta = \frac{Producción}{Área\;total}
+$$
+
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+
+
+CC <- cafe_tot %>%
+  ggplot() + 
+  geom_line(aes(x = Año, y = productividad_neta, color = "Total"  ),
+            linewidth = 2) +
+  geom_line(aes(x = Año, y = productividad_bruta, color = "Producción" ),
+            linewidth = 2) +
+  ylab("Productividad (ton/ha)") +
+  theme_bw() +
+  theme(axis.text.x = element_text( size = 20),
+        axis.text.y = element_text( size = 20),  
+        axis.title.x = element_text( size = 12),
+        axis.title.y = element_text( size = 12))
+
+
+
+ggplotly(CC)
+
+
+```
+
+
