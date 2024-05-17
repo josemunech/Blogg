@@ -4,6 +4,11 @@ output: html_document
 date: "2024-05-16"
 ---
 
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -13,7 +18,7 @@ library(ggplot2)
 library(knitr)
 library(sf)
 library(tmap)
-library(plotly)
+library(DT)
 
 
 
@@ -41,57 +46,9 @@ antioquia <- departementos %>%
 
 ```
 
-## Área en café en 2022
+## Área sembrada: 
 
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-
-
-cafe <-agri_antioquia %>%
-  dplyr::filter(Rubro %in% c("Café" #,
-                            
-  ))  %>%
-  dplyr::group_by(Rubro, Año,Municipio) %>%
-  dplyr::summarise(Área_total = sum(Área.Total, na.rm = T),
-                   Área_producción = sum(Área.Producción, na.rm = T),
-                   Producción = sum(Volumen.Producción, na.rm = T),
-                   productividad_neta = Producción/Área_producción,
-                   productividad_bruta = Producción/Área_total) %>%
-  dplyr::mutate(MPIO_CNMBR = toupper(Municipio))
-  
-
-sub_cafe <- cafe %>%
-            dplyr::filter(Año %in% c(2020,2021,2022) #& Área_total >= 50
-                          ) 
-  
-
-
-antioquia_cafe <- antioquia %>% left_join(sub_cafe%>%
-                                       filter(Año == 2022) ,
-                                     by = "MPIO_CNMBR")
-   
-
-
-caf_ant <- antioquia_cafe %>%
-  dplyr::mutate(mun_ar = paste(MPIO_CNMBR,Área_total, "ha") ) %>%
-   tm_shape() +
-  tm_fill("Área_total", 
-          palette = "YlOrBr", 
-          breaks = c(0,500,2000,4000,6000,8000,10000,12000),
-          id = "mun_ar",
-          title = "%Área total (ha) en 2022") +
-  tm_borders(alpha=.4) +
-  tm_layout(legend.text.size = 0.8, 
-            legend.title.size = 0.8, frame = FALSE, legend.outside = TRUE, 
-            title = "Café en Antioquia") 
-
-
-caf_ant
-
-
-```
-
-## Área sembrada 
+Los datos que publica la gobernación de Antioquia muestran una disminución de áreas sembradas (total y en producción) en café desde los años 90.
 
 ```{r, echo=FALSE,warning=FALSE, message=FALSE}
 
@@ -122,11 +79,13 @@ AA <- cafe_tot %>%
         axis.title.y = element_text( size = 12))
 
 
-ggplotly(AA)
+AA
 
 ```
 
-## Producción total
+## Producción total:
+
+Los mismos datos muestran una disminución fuerte de la producción desde principio de los noventas hasta el año 2000. Desde el 2000 hasta 2022 la producción del departamento de ha recuperado.
 
 ```{r, echo=FALSE,warning=FALSE, message=FALSE, fig.width= 6, fig.height=5}
 BB <- cafe_tot %>%
@@ -141,18 +100,20 @@ BB <- cafe_tot %>%
         axis.title.x = element_text( size = 12),
         axis.title.y = element_text( size = 12))
 
-ggplotly(BB)
+BB
 
 ```
 
-## Productividad
+## Productividad:
+
+La productividad, definida como la producción total del departamento dividida entre el área sembrada, ha aumentado desde el 2000 hasta el 2022. 
 
 $$
-Productividad\;neta = \frac{Producción}{Área\;en\;producción}
+Productividad\ neta = \frac{Producción}{Área\ en\ producción}
 $$
 
 $$
-Productividad\;bruta = \frac{Producción}{Área\;total}
+Productividad\ bruta = \frac{Producción}{Área\ total}
 $$
 
 
@@ -162,9 +123,9 @@ $$
 
 CC <- cafe_tot %>%
   ggplot() + 
-  geom_line(aes(x = Año, y = productividad_neta, color = "Total"  ),
+  geom_line(aes(x = Año, y = productividad_neta, color = "Neta"  ),
             linewidth = 2) +
-  geom_line(aes(x = Año, y = productividad_bruta, color = "Producción" ),
+  geom_line(aes(x = Año, y = productividad_bruta, color = "Bruta" ),
             linewidth = 2) +
   ylab("Productividad (ton/ha)") +
   theme_bw() +
@@ -175,9 +136,87 @@ CC <- cafe_tot %>%
 
 
 
-ggplotly(CC)
+CC
 
 
 ```
+
+Estos datos muestran que el área de siembra en Antioquia ha disminuido desde hace tres décadas, pero hoy en día se produce más por hectárea.
+
+## Área en café en 2022:
+
+En esta tabla interactiva se muestran las áreas sembradas por municipio en el año 2022.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+cafe <-agri_antioquia %>%
+  dplyr::filter(Rubro %in% c("Café" #,
+                            
+  ))  %>%
+  dplyr::group_by(Rubro, Año,Municipio) %>%
+  dplyr::summarise(`Área total (ha)` = sum(Área.Total, na.rm = T),
+                   `Área producción (ha)` = sum(Área.Producción, na.rm = T),
+                   `Producción (ton)`= sum(Volumen.Producción, na.rm = T),
+                   `Productividad neta (ton/ha)` = `Producción (ton)`/`Área producción (ha)`,
+                   `Productividad bruta (ton/ha)` = `Producción (ton)`/`Área total (ha)`) %>%
+  dplyr::mutate(MPIO_CNMBR = toupper(Municipio))
+  
+cafe[,4:8] <- round(cafe[,4:8], digits = 2)
+
+
+DT::datatable(cafe %>%
+              dplyr::filter(Año %in% c(2022) ) %>%
+              dplyr::arrange(desc(`Área total (ha)`)) %>%
+                select(-MPIO_CNMBR))
+
+
+
+
+```
+
+## Mapa de áreas sembradas en 2022:
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+
+sub_cafe <- cafe %>%
+            dplyr::filter(Año %in% c(2022) #& Área_total >= 50
+                          ) 
+  
+
+
+antioquia_cafe <- antioquia %>% left_join(sub_cafe%>%
+                                       filter(Año == 2022) ,
+                                     by = "MPIO_CNMBR")
+   
+
+
+caf_ant <- antioquia_cafe %>%
+   tm_shape() +
+  tm_fill("Área total (ha)", 
+          palette = "YlOrBr", 
+          breaks = c(0,500,1000,2000,4000,6000,8000,10000,12000),
+          textNA = "Sin producción",
+          title = "%Área total (ha) en 2022") +
+  tm_borders(alpha=.4) +
+  tm_layout(legend.text.size = 0.8, 
+            legend.title.size = 0.8, frame = FALSE, legend.outside = TRUE, 
+            title = "Café en Antioquia") 
+
+
+caf_ant
+
+
+
+
+
+
+```
+
+
+## Referencias:
+
+- Datos de obtenidos de  https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Areas-cultivadas-y-produccion-agr-cola-en-Antioqui/t2ca-uae5/about_data .
 
 
