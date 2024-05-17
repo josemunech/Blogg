@@ -25,7 +25,7 @@ Los datos que publica la gobernación de Antioquia muestran una disminución de 
 
 ## Producción total:
 
-Los mismos datos muestran una disminución fuerte de la producción desde principio de los noventas hasta el año 2000. Desde el 2000 hasta 2022 la producción del departamento de ha recuperado.
+Los mismos datos muestran una disminución fuerte de la producción desde principio de los noventas hasta el año 2000. Desde el 2000 hasta 2022 la producción del departamento de ha recuperado. Desafortunadamente, en la base de datos de la gobernación no se precisa si esta producción corresponde a café pergamino.
 
 <img src="/es/post/cafe_files/figure-html/unnamed-chunk-2-1.png" width="576" />
 
