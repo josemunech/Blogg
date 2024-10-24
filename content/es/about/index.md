@@ -50,6 +50,14 @@ __Pregrado: Ingenieria agronomica__.
 
 https://orcid.org/0000-0002-8162-9649
 
+* Múnera‑Echeverri, A., Múnera‑Echeverri, J. L., & Segura‑Sánchez, F. (2024). Bio‑pesticidal potential of nanostructured lipid carriers 
+loaded with thyme and rosemary essential oils against common ornamental flower pests. Colloids and Interfaces, 8(5). https://doi.org/10.3390/colloids8050055
+
+
+* Munera‑Echeverri, J.‑L., Boulonne, L., Saby, N. P. A., Arrouays, D., Bertouy, B., Lacarce, E., Serré, F., Toutain, B., Millet, F.,
+Loiseau, T., & Martin, M. (2024). Datasets on bulk density and coarse fragment content from the french soil quality monitoring
+network. Data in Brief, 56, 110767. https://doi.org/https://doi.org/10.1016/j.dib.2024.110767
+
 * Sharififar, A., Minasny, B., Arrouays, D., Boulonne, L., Chevallier, T., van Deventer, P., Field, D. J., Gomez, C., Jang, H.‑J., Jeon, S.‑H.,
 Koch, J., McBratney, A. B., Malone, B. P., Marchant, B. P., Martin, M. P., Monger, C., Munera‑Echeverri, J.‑L., Padarian, J., Pfeiffer, M., …
 van Zijl, G. (2023). Chapter four ‑ soil inorganic carbon, the other and equally important soil carbon pool: Distribution, controlling factors,
